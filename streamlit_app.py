@@ -42,7 +42,7 @@ try:
       #ruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
       #ruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
       #reamlit.dataframe(fruityvice_normalized)
-       treamlit.dataframe(back_from_function)
+        treamlit.dataframe(back_from_function)
 
 except URLError as e:
   streamlit.error()
