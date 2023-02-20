@@ -40,9 +40,9 @@ try:
     else:
       back_from_function= get_fruityvice_data(fruit_choice)
       streamlit.dataframe(back_from_function)
-      #ruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-      #ruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-      #reamlit.dataframe(fruityvice_normalized)
+      #fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+      #fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+      #streamlit.dataframe(fruityvice_normalized)
         
 
 except URLError as e:
@@ -71,7 +71,15 @@ if streamlit.button('Get Fruit Load List'):
     my_data_rows = get_fruit_load_list()
     streamlit.datafame(my_data_rows)
    
-streamlit.stop()
+def insert_row_snowflake(new_fruit):
+    with my_cnx.cursor () as my_curr:
+        my_cur.execute("insert into fruit_load_list values ('from streamlit')")
+        return "Thanks of adding "  + new_fruit
 add_my_fruit = streamlit.text_input('What fruit would you like to add?')
 streamlit.write('Thanks for adding ', add_my_fruit)
-my_cur.execute("insert into fruit_load_list values ('from streamlit')")
+
+if streamlit.button("Add a fruit to the list "):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    back_from_function = insert_row_snowflake(add_my_fruit)
+    streamlit.text(back_from_function)
+    
